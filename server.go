@@ -61,6 +61,11 @@ func (s *Server) SetLogger(l Logger) {
 	s.logger = &debugLogger{Logger: l, enableDebug: s.Config.EnableDebug}
 }
 
+func (s *Server) Logger() Logger {
+	l := s.logger.(*debugLogger)
+	return l.Logger
+}
+
 func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	pipeHandlers := []PipeHandler{s.GetContextPipeHandler()}
 	pipeHandlers = append(pipeHandlers, s.DefaultPipeHandlers...)
