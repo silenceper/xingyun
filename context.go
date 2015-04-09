@@ -3,6 +3,7 @@ package xingyun
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/gorilla/context"
 )
@@ -149,4 +150,12 @@ func (ctx *Context) checkHeaderWrite() {
 	if ctx.ResponseWriter.Written() {
 		panic(fmt.Errorf("must write header before body"))
 	}
+}
+
+func (ctx *Context) ClientIP() string {
+	r := ctx.Request.Header.Get("X-Forwarded-For")
+	if r != "" {
+		return r
+	}
+	return strings.Split(ctx.Request.RemoteAddr, ":")[0]
 }
