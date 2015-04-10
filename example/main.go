@@ -18,8 +18,15 @@ func main() {
 	}))
 
 	server.Get("/hello", pipe.Wrap(func(ctx *xingyun.Context) {
+		ctx.Halt()
 		logger.Tracef("hello world")
 		ctx.WriteString("hello world")
+	}))
+
+	server.Get("/halt", pipe.Wrap(func(ctx *xingyun.Context) {
+		ctx.Halt()
+		logger.Tracef("halt")
+		ctx.WriteString("halt")
 	}))
 
 	err := server.ListenAndServe("127.0.0.1:9000")

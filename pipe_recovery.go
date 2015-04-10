@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+type haltTag string
+
 func DefaultPanicHandler(ctx *Context) {
 	w := ctx.ResponseWriter
 	r := ctx.Request
@@ -21,6 +23,9 @@ func (s *Server) GetRecoverPipeHandler() PipeHandler {
 
 		defer func() {
 			if err := recover(); err != nil {
+				if _, ok := err.(haltTag); ok {
+					return
+				}
 				ctx := GetContext(r)
 				ctx.IsPanic = true
 				ctx.PanicError = err

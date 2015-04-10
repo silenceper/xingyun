@@ -150,3 +150,8 @@ func (ctx *Context) checkHeaderWrite() {
 		panic(fmt.Errorf("must write header before body"))
 	}
 }
+
+func (ctx *Context) Halt() {
+	tag := haltTag("__HALT__")
+	panic(tag)
+}
