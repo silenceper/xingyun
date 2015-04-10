@@ -159,3 +159,8 @@ func (ctx *Context) ClientIP() string {
 	}
 	return strings.Split(ctx.Request.RemoteAddr, ":")[0]
 }
+
+func (ctx *Context) Halt() {
+	tag := HaltTag("__HALT__")
+	panic(tag)
+}
