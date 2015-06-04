@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"mime"
 	"strings"
+    "bytes"
 )
 
 func (ctx *Context) SetContentType(val string) string {
@@ -58,4 +59,22 @@ func (ctx *Context) Redirect(url_ string) {
 	ctx.ResponseWriter.Header().Set("Location", url_)
 	ctx.ResponseWriter.WriteHeader(302)
 	ctx.ResponseWriter.Write([]byte("Redirecting to: " + url_))
+}
+
+func (ctx *Context) Render(tpl string,data map[string]interface{}){
+    b, err := ctx.View.Render(tpl+".html", data)
+    if err!=nil{
+        panic(err)
+    }
+    if ctx.Config.Layout != "" {
+        l, e := ctx.View.Render(ctx.Config.Layout+".html", data)
+        if e != nil {
+            panic(e)
+        }
+        b = bytes.Replace(l, []byte("{@Content}"), b, -1)
+    }
+    _,err=ctx.Write(b)
+    if err !=nil{
+		ctx.Logger.Errorf(err.Error())
+    }
 }

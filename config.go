@@ -19,6 +19,10 @@ type Config struct {
 
 	XSRFSecret         string
 	XSRFAllowedOrigins []string
+    
+    //view config
+    ViewPath          string
+    Layout            string
 }
 
 func setDefaultConfig(config *Config) {
@@ -34,4 +38,10 @@ func setDefaultConfig(config *Config) {
 	if config.XSRFSecret == "" {
 		config.XSRFSecret = DefaultSecret
 	}
+    if config.ViewPath == ""{
+        config.ViewPath="view"
+    }
+    if config.Layout == ""{
+        config.Layout="layout"
+    }
 }

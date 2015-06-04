@@ -88,6 +88,7 @@ type Context struct {
 	staticData map[string][]string
 	opts       *xsrfOptions
 	xsrf       *xsrf
+    View       *View
 }
 
 func GetContext(r *http.Request) *Context {
@@ -116,6 +117,7 @@ func initContext(r *http.Request, w http.ResponseWriter, s *Server) *Context {
 		Params:         map[string]string{},
 		Data:           map[string]interface{}{},
 		staticData:     map[string][]string{},
+        View:           NewView(s.Config.ViewPath),
 	}
 	ctx.parseParams()
 	ctx.isInited = true
