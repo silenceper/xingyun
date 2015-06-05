@@ -1,9 +1,5 @@
 package xingyun
 
-import (
-	"fmt"
-)
-
 var (
 	SessionKey   string = "ZQSESSID"
 	sessionIDLen int    = 36
@@ -35,10 +31,8 @@ func (ctx *Context) setNewSessionID() (sessionID string) {
 func (ctx *Context) GetSessionID() (sessionID string) {
 	var cookieVal string
 	ctx.GetCookie(SessionKey,&cookieVal)
-	
-	fmt.Println("GetSessionID",cookieVal)
-	
-	if cookieVal == "" || len(cookieVal) != sessionIDLen {
+
+    if cookieVal == "" {
 		return ctx.setNewSessionID()
 	}
 	return cookieVal
